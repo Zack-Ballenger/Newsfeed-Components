@@ -1,6 +1,5 @@
-// This is the data we will be using to create our articles. Look at it, then proceed to line 93.
-// OPTIONAL: if you're feeling adventurous, try to make this data an export from a different module, and import it here.
-// You can read about ES6 modules here: https://exploringjs.com/es6/ch_modules.html#sec_basics-of-es6-modules
+/* This is the data we will be using to create our articles */
+/* Look over this data, then proceed to line 91*/
 const data = [
   {
     title: 'Lambda School Students: "We\'re the best!"',
@@ -89,10 +88,45 @@ const data = [
   }
 ];
 
-/*
-  Step 1: Write a component called 'articleMaker' to create an article.
-  Your component is a function that takes an article object as its only argument,
-  and returns a DOM node looking like the one below:
+
+
+function articleMaker(obj) {
+  let articles = document.querySelector(".articles");
+  let article = document.createElement("div");
+  let h2 = document.createElement("h2");
+  let date = document.createElement("p");
+  let pOne = document.createElement("p");
+  let pTwo = document.createElement("p");
+  let pThree = document.createElement("p");
+  let span = document.createElement("span");
+  article.classList.add("article");
+  date.classList.add("date");
+  span.classList.add("expandToggle");
+
+  h2.textContent = obj.title;
+  date.textContent = obj.date;
+  pOne.textContent = obj.firstParagraph;
+  pTwo.textContent = obj.secondParagraph;
+  pThree.textContent = obj.thirdParagraph;
+  span.style = "bottom:3px";
+  span.textContent = "Toggle Article";
+
+  articles.append(article);
+  article.append(h2, date, pOne, pTwo, pThree, span);
+  span.addEventListener("click", function(obj) {
+    article.classList.toggle("article-open");
+  });
+  return articles;
+}
+
+let dataArr = data.forEach(obj => {
+  return articleMaker(obj);
+});
+
+
+
+
+/* Step 1: Write a component called 'articleMaker' to create an article. You want your component to return markup like the template below: 
 
   <div class="article">
     <h2>{title of the article}</h2>
@@ -100,17 +134,18 @@ const data = [
 
     {three separate paragraph elements}
 
-    <span class="expandButton">+</span>
+    <span class='expandToggle'></span>
   </div>
 
-  Step 2: Still inside `articleMaker`, add an event listener to the span.expandButton.
-  This listener should toggle the class 'article-open' on div.article.
+  Hint: You will need to use createElement more than once here!
+
+  Your function should take either an object as its one argument, or 5 separate arguments mapping to each piece of the data object above.
+
+  Step 2: Add an event listener to the expandToggle span. This listener should toggle the class 'article-open' on the 'article' div.
 
   Step 3: Don't forget to return something from your function!
 
-  Step 4: Outside your function now, loop over the data. At each iteration you'll use your component
-  to create a div.article element and append it to the DOM inside div.articles (see index.html).
+  Step 4: Outside your function, loop over the data. At each iteration you'll use your component to create an article and append it to the DOM inside the 'articles' div.
 
-  Step 5: Try adding new article object to the data array. Make sure it is in the same format as the others.
-  Refresh the page to see the new article.
+  Step 5: Add a new article to the array. Make sure it is in the same format as the others. Refresh the page to see the new article.
 */
